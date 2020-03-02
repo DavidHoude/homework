@@ -106,7 +106,9 @@ pipeline {
         }
       }
       node('master') {
-        aws eks --region ${EKS_REGION} update-kubeconfig --name ${EKS_CLUSTER}
+        sh '''
+          aws eks --region ${EKS_REGION} update-kubeconfig --name ${EKS_CLUSTER}
+        '''
       }
     }
 
