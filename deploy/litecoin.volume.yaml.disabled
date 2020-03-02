@@ -1,0 +1,35 @@
+# This PV assumes an AWS EFS (NFS) mount, as opposed to EBS, local, gluster, etc.
+# Also assumes that a single replica will be performing R/W operations to the volume.
+#
+# Edit, skipping this as StatefulSet is probably better using volumeClaimTemplates if using AWS/EKS (assumed based on recruiter email headers)
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: litecoin-data-pv
+  labels:
+    app: litecoin-daemon
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: gp2
+  nfs:
+    path: /
+    server: us-east-1a.fs-b4b0b4b0.efs.us-east-1.amazonaws.com
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: litecoin-data-pvc
+spec:
+  storageClassName: gp2
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
+  selector:
+    matchLabels:
+      app: "litecoin-daemon"

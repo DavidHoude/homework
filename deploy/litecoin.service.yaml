@@ -1,0 +1,21 @@
+# Expose the RPC and Listener ports for mainnet and testnet. 
+apiVersion: v1
+kind: Service
+metadata:
+  name: litecoin-svc
+spec:
+  selector:
+    app: litecoin-daemon
+  ports:
+    - protocol: TCP
+      port: 9332
+      targetPort: 9332
+    - protocol: TCP
+      port: 9333
+      targetPort: 9333
+    - protocol: TCP
+      port: 19332
+      targetPort: 19332
+    - protocol: TCP
+      port: 19333
+      targetPort: 19333
