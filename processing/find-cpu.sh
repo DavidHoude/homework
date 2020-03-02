@@ -20,5 +20,5 @@ for depl in $(find deployments | grep deployment.yaml); do
     fi
   done
 
-  echo $CLIENT,$PRODUCT,$APP,$CPU
+  echo ${CLIENT},${PRODUCT},${APP},${CPU}
 done
