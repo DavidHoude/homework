@@ -8,7 +8,7 @@ glob('deployments/**/deployment.yaml', function(err, files) {
       try {
           // Load the YAML from file, pull CPU requests from first container (no sidecars)
           var yamlData = yaml.safeLoad(fs.readFileSync(files[file], 'utf8'))
-          let cpu = JSON.stringify(yamlData.spec.template.spec.containers[0].resources.requests.cpu).replace(/['"]+/g, '')
+          let cpu = JSON.stringify(yamlData.spec.template.spec.containers[0].resources.requests.cpu).replace(/['"]+/g, '') // Strings have quotes, remove them.
 
           // Split the file path into client/product/app
           const path = files[file].toString().split('/')
@@ -19,8 +19,15 @@ glob('deployments/**/deployment.yaml', function(err, files) {
           // Multiple whole CPU cores by 1000, or strip the 'm' from the microcores
           if(cpu.endsWith("m")) {
               cpu = cpu.replace('m', '')
+              if(!Number.isInteger(Number(cpu))){
+                cpu = "unknown"
+              }
           } else {
+            if(Number.isInteger(Number(cpu))){
               cpu = cpu * 1000
+            } else {
+              cpu = "unknown"
+            }
           }
 
           // Output in CSV without plugin due to low complexity.

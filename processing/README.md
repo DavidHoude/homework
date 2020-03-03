@@ -11,12 +11,17 @@ The CPU cores can be represented in whole cores as a an integer '1' or as 1/1000
 ### Raw
 ```
 client1/product1/app1/deployment.yaml:
+    ...
     requests:
       cpu: 1000m
+    ...
+
 
 client2/product1/app1/deployment.yaml:
+    ...
     requests:
       cpu: 1
+    ...
 ```
 
 ### find-cpu.sh
