@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: litecoin-daemon-homework
+spec:
+  selector:
+    matchLabels:
+      app: litecoin-daemon
+  serviceName: "litecoin-svc"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: litecoin-daemon
+    spec:
+      # Give 30 seconds to terminate to prevent possible data loss
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: litecoin-daemon
+        # This is a placeholder repo, does not current exist
+        image: davidhoude/litecoin:latest
+        ports:
+        - containerPort: 9332
+          name: ltc-rpc
+        - containerPort: 9333
+          name: ltc-listen
+        - containerPort: 19332
+          name: ltc-rpc-testnet
+        - containerPort: 19333
+          name: ltc-listen-testnet
+        # Mount the PV in litecoind's datadir (as specified in entrypoint)
+        volumeMounts:
+        - name: litecoin-data
+          mountPath: /usr/local/litecoin-data
+        # Values based on internet search, these would need to be tuned for actual usage.
+        resources:
+          requests:
+            memory: 512Mi
+            cpu: 500m
+          limits:
+            memory: 4000Mi
+            cpu: 2
+ # Using volumeClaimTemplate instead of volumes due to statefulset. This may need some additional tuning
+ volumeClaimTemplates:
+  - metadata:
+      name: litecoin-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: gp2
+      resources:
+        requests:
+          storage: 150Gi

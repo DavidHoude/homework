@@ -1,0 +1,43 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: client1-product1-app1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: client1-product1-app1
+  template:
+    metadata:
+      labels:
+        name: client1-product1-app1
+        client: client1
+        product: product1
+        application: app1
+    spec:
+      containers:
+      - name: client1-product1-app1
+        image: davidhoude/coolapp:latest
+        livenessProbe:
+          exec:
+            command:
+            - /usr/local/bin/health_check
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        imagePullPolicy: Always
+        lifecycle:
+          preStop:
+            exec:
+              command: [kill, -SIGTERM, $(cat /var/run/gunicorn.pid)]
+        ports:
+        - name: gunicorn
+          containerPort: 3443
+        resources:
+          requests:
+            cpu: 1
+            memory: 256Mi
+          limits:
+            memory: 2048Mi
+            cpu: 1000m
+      imagePullSecrets:
+      - name: dockerhub
