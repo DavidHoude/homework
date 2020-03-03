@@ -17,7 +17,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
       - name: litecoin-daemon
-        # This is a placeholder repo, does not current exist
+        # This is a placeholder repo, does not currenty exist
         image: davidhoude/litecoin:latest
         ports:
         - containerPort: 9332

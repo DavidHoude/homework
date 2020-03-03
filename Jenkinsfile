@@ -113,7 +113,7 @@ pipeline {
     }
 
 
-    // Deploy docker container to EKS from master node (no workers)
+    // Deploy docker container to EKS from master node (no workers). Replaces the image tag with the current build tag.
     stage('Kube Deploy') {
       when {
         anyOf {

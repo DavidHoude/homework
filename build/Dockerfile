@@ -12,7 +12,7 @@ EXPOSE 9332 9333 19332 19333 19444
 
 
 # Update and install required utils, clean up for smaller image layer
-RUN apt update && apt upgrade && apt install gnupg2 wget -y && apt clean && rm -rf /var/lib/apt/lists/*
+RUN apt update -y && apt install gnupg2 wget -y && apt clean && rm -rf /var/lib/apt/lists/*
 
 
 # Download litecoind tarball & signature/checksums
