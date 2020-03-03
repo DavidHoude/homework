@@ -29,6 +29,10 @@ The container runs as the litecoin user and defaults to daemon mode.
 
 Both Testnet and Mainnet ports are exposed. 
 
+Some of the code was inspired by the following project. I did notice that they were not verifying the sha256sum of the downloaded package, submitted a pull request to the project with my solution.
+
+[https://github.com/uphold/docker-litecoin-core/pull/23](https://github.com/uphold/docker-litecoin-core/pull/23)
+
 
 ### Delpoy
 
