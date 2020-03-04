@@ -25,6 +25,7 @@ RUN wget https://download.litecoin.org/litecoin-${LTCD_VER}/linux/litecoin-${LTC
 
 RUN wget -O - 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xFE3348877809386C' | gpg --import \
  && gpg --fingerprint FE3348877809386C \
+ && gpg --verify litecoin-${LTCD_VER}-linux-signatures.asc \
  && grep $(sha256sum litecoin-${LTCD_VER}-x86_64-linux-gnu.tar.gz | awk '{ print $1 }') litecoin-${LTCD_VER}-linux-signatures.asc \
  && echo "Verified download checksum"
 
